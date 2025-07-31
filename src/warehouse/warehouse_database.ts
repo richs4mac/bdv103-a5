@@ -76,3 +76,8 @@ export class DatabaseWarehouse implements WarehouseData {
     return result.insertedId.toHexString();
   }
 }
+
+export async function getDefaultWarehouseDatabase(): Promise<WarehouseData> {
+  const db = await getWarehouseDatabase();
+  return new DatabaseWarehouse(db);
+}
