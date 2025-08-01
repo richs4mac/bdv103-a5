@@ -132,3 +132,4 @@ dist
 # from assignment 5
 *.js
 build
+client
