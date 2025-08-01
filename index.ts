@@ -1,25 +1,37 @@
-import Koa from 'koa'
-import cors from '@koa/cors'
-import zodRouter from 'koa-zod-router'
-import qs from 'koa-qs'
-import { setupBookRoutes } from './src/books'
-import { setupWarehouseRoutes } from './src/warehouse'
+// from this example https://github.com/lukeautry/tsoa/blob/master/tests/fixtures/koa/server.ts
 
-const app = new Koa()
+import KoaRouter from '@koa/router';
+import Koa from 'koa';
+import { koaSwagger } from 'koa2-swagger-ui';
+import swagger from './tsoa/swagger.json';
 
-// We use koa-qs to enable parsing complex query strings, like our filters.
-qs(app)
+import bodyParser from 'koa-bodyparser';
+import { RegisterRoutes } from './tsoa/routes';
 
-// And we add cors to ensure we can access our API from the mcmasterful-books website
-app.use(cors())
+const app = new Koa();
+app.use(bodyParser());
 
-const router = zodRouter({ zodRouter: { exposeRequestErrors: true } })
+const router = new KoaRouter();
 
-setupBookRoutes(router)
-setupWarehouseRoutes(router)
+(RegisterRoutes as (router: KoaRouter) => void)(router);
 
-app.use(router.routes())
+// It's important that this come after the main routes are registered
+app.use(async (context, next) => {
+  try {
+    await next();
+  } catch (err: any) {
+    context.status = err.status || 500;
+    context.body = err.message || 'An error occurred during the request.';
+  }
+});
 
-app.listen(3000, () => {
-  console.log('listening!')
-})
+app.use(router.routes()).use(router.allowedMethods());
+
+app.use(koaSwagger({
+  routePrefix: '/docs',
+  specPrefix: '/docs/spec',
+  exposeSpec: true,
+  swaggerOptions: { spec: swagger }
+}));
+
+export const server = app.listen(3000);
