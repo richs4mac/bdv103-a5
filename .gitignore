@@ -129,5 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# for assignment 5
+# from assignment 5
+*.js
 build

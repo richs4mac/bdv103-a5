@@ -2,10 +2,11 @@
 
 import KoaRouter from '@koa/router';
 import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
 import { koaSwagger } from 'koa2-swagger-ui';
-import { RegisterRoutes } from './tsoa/routes';
 import swagger from './tsoa/swagger.json';
+
+import bodyParser from 'koa-bodyparser';
+import { RegisterRoutes } from './tsoa/routes';
 
 const app = new Koa();
 app.use(bodyParser());
@@ -13,15 +14,6 @@ app.use(bodyParser());
 const router = new KoaRouter();
 
 (RegisterRoutes as (router: KoaRouter) => void)(router);
-
-app.use(router.routes()).use(router.allowedMethods());
-
-app.use(koaSwagger({
-  routePrefix: '/docs',
-  specPrefix: '/docs/spec',
-  exposeSpec: true,
-  swaggerOptions: { spec: swagger }
-}));
 
 // It's important that this come after the main routes are registered
 app.use(async (context, next) => {
@@ -33,4 +25,15 @@ app.use(async (context, next) => {
   }
 });
 
+app.use(router.routes()).use(router.allowedMethods());
+
+app.use(koaSwagger({
+  routePrefix: '/docs',
+  specPrefix: '/docs/spec',
+  exposeSpec: true,
+  swaggerOptions: { spec: swagger }
+}));
+
 export const server = app.listen(3000);
+
+console.log("test");
