@@ -22,7 +22,7 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-        "semi": "always",
-        "eol-last": "always"
+        "semi": 1,
+        "eol-last": 1
     }
 }
