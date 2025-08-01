@@ -5,10 +5,11 @@
     "src/**/*Controller.ts"
   ],
   "spec": {
-    "outputDirectory": "build",
+    "outputDirectory": "./tsoa",
     "specVersion": 3
   },
   "routes": {
-    "routesDir": "build"
+    "middleware": "koa",
+    "routesDir": "./tsoa"
   }
 }
