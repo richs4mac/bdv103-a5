@@ -1,18 +1,28 @@
-import { MongoMemoryServer } from 'mongodb-memory-server'
-import { afterAll } from 'vitest'
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { afterAll } from 'vitest';
 
-export async function setup (): Promise<void> {
-  const instance = await MongoMemoryServer.create({ binary: { version: '7.0.7' } })
+export async function setup(): Promise<void> {
+  const instance = await MongoMemoryServer.create({
+    binary: {
+      version: '7.0.12',
+      downloadDir: '/tmp/mongodb-binaries',
+      os: {
+        os: 'linux',
+        dist: 'ubuntu',
+        release: '22.04'
+      }
+    }
+  });
   const uri = instance.getUri();
   (global as any).__MONGOINSTANCE = instance;
-  (global as any).MONGO_URI = uri.slice(0, uri.lastIndexOf('/'))
+  (global as any).MONGO_URI = uri.slice(0, uri.lastIndexOf('/'));
 }
 
-export async function teardown (): Promise<void> {
-  const instance: MongoMemoryServer = (global as any).__MONGOINSTANCE
-  await instance.stop({ doCleanup: true })
+export async function teardown(): Promise<void> {
+  const instance: MongoMemoryServer = (global as any).__MONGOINSTANCE;
+  await instance.stop({ doCleanup: true });
 }
 
-await setup()
+await setup();
 
-afterAll(teardown)
+afterAll(teardown);
