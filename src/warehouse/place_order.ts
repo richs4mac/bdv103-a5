@@ -1,6 +1,6 @@
 import { type ZodRouter } from 'koa-zod-router'
 import { type BookID, type OrderId } from '../../adapter/assignment-4'
-import { InMemoryWarehouse, type WarehouseData, getDefaultWarehouseData } from './warehouse_data'
+import { InMemoryWarehouse, type WarehouseData, getDefaultWarehouseData } from './warehouseDb'
 import { z } from 'zod'
 
 async function placeOrder (data: WarehouseData, books: BookID[]): Promise<OrderId> {
