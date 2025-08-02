@@ -6,11 +6,11 @@ setupTest()
 describe('Hello endpoint', async () => {
   // where do DefaultApi & Configuration come from??
   // const client = new DefaultApi(new Configuration({ basePath: address }))
-  it('should return the name given as a parameter', async () => {
+  it('should return Hello sam', async () => {
     const response = await fetch('http://localhost:3000/hello/sam')
-    const data = await response.json()
+    const data = await response.text()
 
     expect(response.status).toBe(200)
-    expect(data).toBe('sam')
+    expect(data).toBe('Hello sam')
   })
 })

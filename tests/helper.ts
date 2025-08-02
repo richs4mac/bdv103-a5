@@ -1,17 +1,18 @@
-import createServer from 'src/server.js'
-import { afterEach, beforeEach } from 'vitest'
+import createServer from '../src/server.js'
+import { afterAll, beforeAll } from 'vitest'
 
 // didn't add these functions to test context because it seems redundant
 
 const setupTest = (): void => {
   const server = createServer()
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     server.listen(0)
   })
 
-  afterEach(async () => {
-    server.close()
+  afterAll(async () => {
+    // TODO this isn't a valid function?
+    // server.close()
   })
 }
 
