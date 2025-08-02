@@ -13,7 +13,7 @@
     "test:ci": "vitest run",
     "generate-sdk": "./generateSdk.sh",
     "build": "tsoa spec-and-routes && tsc",
-    "start": "./generateSdk.sh && node build/src/server.js",
+    "start": "./generateSdk.sh && node build/index.js",
     "dev": "concurrently \"tsx watch ./index.ts\" \"nodemon -x tsoa spec-and-routes\""
   },
   "keywords": [],
