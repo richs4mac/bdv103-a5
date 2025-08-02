@@ -1,3 +1,5 @@
-import server from './src/server.js'
+import createServer from './src/server.js'
 
-server()
+const app = createServer()
+
+app.listen(3000)
