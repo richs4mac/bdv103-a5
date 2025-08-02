@@ -12,7 +12,7 @@
     "test:ci": "vitest run",
     "build": "tsoa spec-and-routes && tsc",
     "start": "./generateSdk.sh && node build/src/server.js",
-    "dev": "\"./generateSdk.sh\" \"concurrently \"tsx watch ./index.ts\" \"nodemon -x tsoa spec-and-routes\""
+    "dev": "concurrently \"tsx watch ./index.ts\" \"nodemon -x tsoa spec-and-routes\""
   },
   "keywords": [],
   "author": "",

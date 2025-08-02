@@ -50,6 +50,6 @@
       "tsoa/": ["node_modules/tsoa/dist/"]
     },
   },
-  "include": ["src/**/*", "index.ts", "adapter/**/*"],
+  "include": ["src/**/*", "index.ts", "adapter/**/*", "vitest-openapi-plugin.ts"],
   "excude": ["node_modules", ".devcontainer", "build", "client"]
 }
