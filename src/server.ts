@@ -1,5 +1,6 @@
 import cors from '@koa/cors'
 import KoaRouter from '@koa/router'
+import { type IncomingMessage, type Server, type ServerResponse } from 'http'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import qs from 'koa-qs'
@@ -11,7 +12,8 @@ import { type AppBookDatabaseState } from './books/types.js'
 import { type AppWarehouseDatabaseState } from './warehouse/types.js'
 import { getDefaultWarehouseDatabase } from './warehouse/warehouseDb.js'
 
-const createServer = async (randomizeDbNames?: boolean): Promise<any> => {
+// port = 0 will make Node pick a random available port
+const createServer = async ({ port = 0, randomizeDbNames }: { port?: number, randomizeDbNames?: boolean } = {}): Promise<Server<typeof IncomingMessage, typeof ServerResponse>> => {
   const bookDb = getBookDatabase((randomizeDbNames ?? false) ? undefined : 'bookDb')
   const warehouseDb = await getDefaultWarehouseDatabase((randomizeDbNames ?? false) ? undefined : 'warehouseDb')
   const state = { bookDb, warehouseDb }
@@ -55,8 +57,8 @@ const createServer = async (randomizeDbNames?: boolean): Promise<any> => {
     swaggerOptions: { spec: swagger }
   }))
 
-  // returning app instead of app.listen so i can use app.close
-  return app
+  // there's no way to close this server if we export app.listen 🤷‍♀️
+  return app.listen(port)
 }
 
 export default createServer
