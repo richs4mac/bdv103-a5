@@ -1,5 +1,5 @@
-module.exports = {
-    "env": {
+{
+	"env": {
         "es2021": true,
         "node": true
     },
@@ -10,11 +10,11 @@ module.exports = {
                 "node": true
             },
             "files": [
-                ".eslintrc.{js,cjs}"
+                ".eslintrc.json"
             ],
             "parserOptions": {
                 "sourceType": "script"
-            },
+            }
         }
     ],
     "parserOptions": {
@@ -22,5 +22,7 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "semi": 1,
+        "eol-last": 1
     }
 }

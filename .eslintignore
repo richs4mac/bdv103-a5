@@ -1,1 +1,4 @@
-.eslintrc.js
+.eslintrc.json
+build/**
+client/**
+tsoa/**

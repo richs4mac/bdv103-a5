@@ -1,0 +1,15 @@
+{
+  "entryFile": "index.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "**/*Controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "./build/tsoa",
+    "specVersion": 3
+  },
+  "routes": {
+    "middleware": "koa",
+    "routesDir": "./build/tsoa"
+  }
+}

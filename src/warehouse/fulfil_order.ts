@@ -1,7 +1,8 @@
 import { type ZodRouter } from 'koa-zod-router'
-import { type ShelfId, type BookID, type OrderId } from '../../adapter/assignment-4'
-import { InMemoryWarehouse, type WarehouseData, getDefaultWarehouseData } from './warehouse_data'
 import { z } from 'zod'
+import { type BookID, type OrderId, type ShelfId } from '../../adapter/assignment-4'
+import { type WarehouseDatabaseAccessor, type WarehouseData } from './types'
+import { InMemoryWarehouse, getDefaultWarehouseData } from './warehouseDb'
 
 async function fulfilOrder (data: WarehouseData, orderId: OrderId, booksFulfilled: Array<{ book: BookID, shelf: ShelfId, numberOfBooks: number }>): Promise<void> {
   const order = await data.getOrder(orderId)
@@ -38,7 +39,7 @@ async function fulfilOrder (data: WarehouseData, orderId: OrderId, booksFulfille
   }))
 }
 
-export function fulfilOrderRouter (router: ZodRouter): void {
+export function fulfilOrderRouter (router: ZodRouter, warehouse: WarehouseDatabaseAccessor): void {
   router.register({
     name: 'fulfil order',
     method: 'put',
