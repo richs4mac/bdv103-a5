@@ -1,9 +1,10 @@
 import { z } from 'zod'
-import { getBookDatabase, type BookDatabaseAccessor } from '../database_access'
 import { type BookID, type Book } from '../../adapter/assignment-2'
 import { type ZodRouter } from 'koa-zod-router'
 import { ObjectId } from 'mongodb'
 import { generateId, seedBookDatabase } from '../../database_test_utilities'
+import { type BookDatabaseAccessor } from './types'
+import { getBookDatabase } from './books_database'
 
 async function getBook (id: BookID, { books }: BookDatabaseAccessor): Promise<Book | false> {
   if (id.length !== 24) {

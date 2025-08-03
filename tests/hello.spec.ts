@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import setupTest from './helper.js'
 
-setupTest()
+await setupTest()
 
 describe('Hello endpoint', async () => {
   // where do DefaultApi & Configuration come from??

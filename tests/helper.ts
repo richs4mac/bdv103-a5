@@ -3,8 +3,8 @@ import { afterAll, beforeAll } from 'vitest'
 
 // didn't add these functions to test context because it seems redundant
 
-const setupTest = (): void => {
-  const server = createServer()
+const setupTest = async (): Promise<void> => {
+  const server = await createServer()
 
   beforeAll(async () => {
     server.listen(0)

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/indent */
 import { z } from 'zod'
 import { type Book } from '../../adapter/assignment-2'
 import { type ZodRouter } from 'koa-zod-router'
-import { getBookDatabase } from '../database_access'
+import { getBookDatabase } from './books_database'
 
 export default function booksList (router: ZodRouter): void {
   router.register({
@@ -31,26 +32,26 @@ export default function booksList (router: ZodRouter): void {
 
       const query = validFilters.length > 0
         ? {
-            $or: validFilters.map(({ from, to, name, author }) => {
-              const filter: { price?: { $gte?: number, $lte?: number }, name?: { $regex: string, $options: string }, author?: { $regex: string, $options: string } } = {}
-              if (typeof from === 'number') {
-                filter.price = { $gte: from }
-              }
-              if (typeof to === 'number') {
-                filter.price = { ...(filter.price ?? {}), $lte: to }
-              }
-              if (typeof name === 'string') {
-                filter.name = { $regex: name.toLowerCase(), $options: 'ix' }
-              }
-              if (typeof author === 'string') {
-                filter.author = { $regex: author.toLowerCase(), $options: 'ix' }
-              }
-              return filter
-            })
-          }
+          $or: validFilters.map(({ from, to, name, author }) => {
+            const filter: { price?: { $gte?: number, $lte?: number }, name?: { $regex: string, $options: string }, author?: { $regex: string, $options: string } } = {}
+            if (typeof from === 'number') {
+              filter.price = { $gte: from }
+            }
+            if (typeof to === 'number') {
+              filter.price = { ...(filter.price ?? {}), $lte: to }
+            }
+            if (typeof name === 'string') {
+              filter.name = { $regex: name.toLowerCase(), $options: 'ix' }
+            }
+            if (typeof author === 'string') {
+              filter.author = { $regex: author.toLowerCase(), $options: 'ix' }
+            }
+            return filter
+          })
+        }
         : {}
 
-      const bookList = await bookCollection.find(query).map(document => {
+      const bookList = await bookCollection.find(query).map((document: any) => {
         const book: Book = {
           id: document._id.toHexString(),
           name: document.name,

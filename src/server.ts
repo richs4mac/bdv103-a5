@@ -1,14 +1,34 @@
+import cors from '@koa/cors'
 import KoaRouter from '@koa/router'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
+import qs from 'koa-qs'
 import { koaSwagger } from 'koa2-swagger-ui'
 import { RegisterRoutes } from '../tsoa/routes.js'
 import swagger from '../tsoa/swagger.json' with { type: 'json' }
+import { getBookDatabase } from './books/books_database.js'
+import { type AppBookDatabaseState } from './books/types.js'
+import { type AppWarehouseDatabaseState } from './warehouse/types.js'
+import { getDefaultWarehouseDatabase } from './warehouse/warehouseDb.js'
 
-const createServer = (): any => {
-  const app = new Koa()
+const createServer = async (randomizeDbNames?: boolean): Promise<any> => {
+  const bookDb = getBookDatabase((randomizeDbNames ?? false) ? undefined : 'bookDb')
+  const warehouseDb = await getDefaultWarehouseDatabase((randomizeDbNames ?? false) ? undefined : 'warehouseDb')
+  const state = { bookDb, warehouseDb }
+  const app = new Koa<AppBookDatabaseState & AppWarehouseDatabaseState, Koa.DefaultContext>()
+
+  app.use(async (ctx, next): Promise<void> => {
+    ctx.state = state
+    await next()
+  })
 
   app.use(bodyParser())
+
+  // We use koa-qs to enable parsing complex query strings, like our filters.
+  qs(app)
+
+  // And we add cors to ensure we can access our API from the mcmasterful-books website
+  app.use(cors())
 
   const router = new KoaRouter();
 

@@ -1,5 +1,5 @@
 import createServer from './src/server.js'
 
-const app = createServer()
+const app = await createServer()
 
 app.listen(3000)

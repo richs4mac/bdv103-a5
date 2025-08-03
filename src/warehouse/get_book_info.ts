@@ -1,7 +1,8 @@
 import { type ZodRouter } from 'koa-zod-router'
-import { type ShelfId, type BookID } from '../../adapter/assignment-4'
-import { InMemoryWarehouse, type WarehouseData, getDefaultWarehouseData } from './warehouseDb'
 import { z } from 'zod'
+import { type BookID, type ShelfId } from '../../adapter/assignment-4'
+import { type WarehouseData } from './types'
+import { InMemoryWarehouse, getDefaultWarehouseData } from './warehouseDb'
 
 async function getBookInfo (data: WarehouseData, bookId: BookID): Promise<Record<ShelfId, number>> {
   const copies = await data.getCopies(bookId)
