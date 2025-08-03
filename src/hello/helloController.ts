@@ -4,14 +4,14 @@ import {
   Get,
   Path,
   Route
-} from "tsoa";
+} from 'tsoa'
 
-@Route("hello")
+@Route('hello')
 export class HelloController extends Controller {
-  @Get("{name}")
-  public getHello(
+  @Get('{name}')
+  public getHello (
     @Path() name: string
   ): string {
-    return `Hello ${name}`;
+    return `Hello ${name}`
   }
 }
