@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import setupTest from './helper.js'
+import setupTest, { type LocalTestContext } from './setup.js'
 
 await setupTest()
 
 describe('Hello endpoint', async () => {
-  // where do DefaultApi & Configuration come from??
+  // I don't know how to get this from the generated SDK
   // const client = new DefaultApi(new Configuration({ basePath: address }))
-  it('should return Hello sam', async () => {
+  // also the context is returning an address that's just "::"
+  it<LocalTestContext>('should return Hello sam', async () => {
     const response = await fetch('http://localhost:3000/hello/sam')
     const data = await response.text()
 

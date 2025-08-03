@@ -57,7 +57,6 @@ const createServer = async ({ port = 0, randomizeDbNames }: { port?: number, ran
     swaggerOptions: { spec: swagger }
   }))
 
-  // there's no way to close this server if we export app.listen 🤷‍♀️
   return app.listen(port)
 }
 
